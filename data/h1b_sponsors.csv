@@ -1,0 +1,94 @@
+employer,filings,source
+Amazon,1000,seed
+Amazon Web Services,1000,seed
+Google,1000,seed
+Microsoft,1000,seed
+Meta,1000,seed
+Apple,1000,seed
+Nvidia,500,seed
+Salesforce,500,seed
+Adobe,400,seed
+Oracle,500,seed
+IBM,800,seed
+Intel,600,seed
+Cisco,500,seed
+Qualcomm,500,seed
+Uber,400,seed
+Lyft,200,seed
+Airbnb,200,seed
+LinkedIn,300,seed
+PayPal,300,seed
+Netflix,200,seed
+Tesla,400,seed
+Stripe,150,seed
+Databricks,150,seed
+Snowflake,150,seed
+Datadog,120,seed
+Coinbase,120,seed
+Robinhood,100,seed
+Plaid,60,seed
+Brex,50,seed
+Ramp,50,seed
+DoorDash,150,seed
+Instacart,100,seed
+Roblox,100,seed
+Unity Technologies,80,seed
+Twilio,120,seed
+Cloudflare,100,seed
+MongoDB,120,seed
+Confluent,80,seed
+HashiCorp,60,seed
+GitLab,60,seed
+Affirm,80,seed
+Palantir Technologies,200,seed
+Scale AI,40,seed
+OpenAI,80,seed
+Anthropic,40,seed
+Notion Labs,30,seed
+Figma,60,seed
+Asana,80,seed
+Samsara,80,seed
+Nutanix,150,seed
+ServiceNow,300,seed
+Workday,300,seed
+Intuit,300,seed
+VMware,400,seed
+Walmart Global Tech,800,seed
+JPMorgan Chase,1000,seed
+Goldman Sachs,800,seed
+Morgan Stanley,600,seed
+Capital One,800,seed
+Deloitte Consulting,2000,seed
+Accenture,2000,seed
+Cognizant Technology Solutions,2000,seed
+Infosys,2000,seed
+Tata Consultancy Services,2000,seed
+Wipro,2000,seed
+Ernst Young,1500,seed
+PricewaterhouseCoopers,1500,seed
+KPMG,1500,seed
+Bloomberg,400,seed
+Two Sigma,150,seed
+Citadel,150,seed
+Visa,500,seed
+Mastercard,400,seed
+American Express,400,seed
+Comcast,500,seed
+Walt Disney,300,seed
+Pinterest,120,seed
+Snap,150,seed
+Reddit,60,seed
+Dropbox,100,seed
+Box,80,seed
+Okta,120,seed
+Splunk,150,seed
+Atlassian,150,seed
+Block,150,seed
+Zoom Video Communications,200,seed
+DocuSign,100,seed
+Rippling,40,seed
+Gusto,40,seed
+Chime,60,seed
+SoFi,80,seed
+Wealthfront,30,seed
+Verkada,40,seed

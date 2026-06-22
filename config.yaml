@@ -1,0 +1,71 @@
+# ---------------------------------------------------------------------------
+# Job-search automation — configuration
+#
+# Edit this file (directly or via the config webpage) and commit. The next
+# scheduled GitHub Actions run picks it up automatically.
+# NOTE: No secrets live here. API keys + your profile go in GitHub Secrets.
+# ---------------------------------------------------------------------------
+
+# Roles you're targeting. A posting's title must match at least one of these
+# (case-insensitive) to be considered.
+roles:
+  - Data Scientist
+  - Machine Learning Engineer
+  - ML Engineer
+  - AI Engineer
+  - Applied Scientist
+  - Data Analyst
+  - Data Engineer
+  - Software Engineer
+
+# Free-text description of what you want. Used to score how well each posting
+# matches you (keyword overlap; optional LLM re-rank).
+description: >
+  Early-career Data Science / Machine Learning / AI Engineer roles in the USA.
+  Strong in Python, PyTorch, TensorFlow, scikit-learn, LangChain, LLMs and RAG,
+  vector databases, SQL, and AWS. Open to new-grad roles and roles asking for up
+  to ~3 years of experience. Backend / data-pipeline software roles welcome.
+  Avoid senior / staff / principal / manager-only roles and anything requiring an
+  active US security clearance.
+
+# Hard location filter.
+location:
+  country: us
+  modalities: [remote, hybrid, onsite]   # open to all
+  places: []        # optional whitelist, e.g. ["California", "New York", "Texas"]
+
+# Result filters.
+filters:
+  # Freshness proxy for "low competition" (real applicant counts aren't
+  # available for free). Keep only postings first seen within this many hours.
+  max_age_hours: 6
+  # Drop titles containing any of these words (seniority / mismatch guards).
+  exclude_title_keywords:
+    [senior, staff, principal, lead, manager, director, "vp", "head of", intern, clearance]
+  # Description keyword overlap (0–1). This is mainly a RANKING signal (better
+  # matches sort to the top). Keep at 0.0 to let the title filter do the gating
+  # and apply broadly; raise it (e.g. 0.1) to also drop weak matches.
+  min_match_score: 0.0
+  # Safety cap on rows written per run (avoid Sheet floods on first run).
+  max_new_per_run: 60
+
+# H1B handling. Priority, NOT a hard filter — non-sponsors are still included,
+# just flagged in the sheet. Flip `require` to true to keep sponsors only.
+h1b:
+  require: false
+  prioritize: true          # sort known sponsors to the top of each batch
+  min_recent_filings: 1     # how many recent LCAs/approvals counts as "a sponsor"
+
+# Company career boards to crawl directly = the "individual company websites".
+# Each value is the company's board SLUG on that ATS platform. Unverified slugs
+# just get skipped with a warning (run scripts/verify_companies.py to check).
+#   greenhouse -> boards.greenhouse.io/<slug>
+#   lever      -> jobs.lever.co/<slug>
+#   ashby      -> jobs.ashbyhq.com/<slug>
+companies:
+  greenhouse:
+    [stripe, databricks, airbnb, doordash, instacart, robinhood, plaid, coinbase, gitlab, samsara, brex]
+  lever:
+    [netflix, plaid, palantir]
+  ashby:
+    [notion, linear, ramp, runwayml]

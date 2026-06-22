@@ -1,0 +1,18 @@
+# --- secrets / personal (NEVER commit these to a public repo) ---
+.env
+profile.md
+service_account.json
+*.key.json
+
+# --- raw H1B downloads (large; the normalized data/h1b_sponsors.csv IS committed) ---
+data/raw/
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# --- os ---
+.DS_Store
