@@ -38,7 +38,8 @@ location:
 filters:
   # Freshness proxy for "low competition" (real applicant counts aren't
   # available for free). Keep only postings first seen within this many hours.
-  max_age_hours: 6
+  # 24h = "posted today" (good volume + still early). Lower to 6 for ultra-fresh.
+  max_age_hours: 24
   # Drop titles containing any of these words (seniority / mismatch guards).
   exclude_title_keywords:
     [senior, staff, principal, lead, manager, director, "vp", "head of", intern, clearance]
@@ -64,8 +65,8 @@ h1b:
 #   ashby      -> jobs.ashbyhq.com/<slug>
 companies:
   greenhouse:
-    [stripe, databricks, airbnb, doordash, instacart, robinhood, plaid, coinbase, gitlab, samsara, brex]
+    [stripe, databricks, airbnb, doordashusa, instacart, robinhood, coinbase, gitlab, samsara, brex]
   lever:
-    [netflix, plaid, palantir]
+    [palantir]
   ashby:
-    [notion, linear, ramp, runwayml]
+    [notion, linear, ramp, plaid, runway]
