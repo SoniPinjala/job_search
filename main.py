@@ -9,12 +9,14 @@ from __future__ import annotations
 
 import argparse
 import logging
+import os
 from datetime import datetime, timezone
 
 from src import h1b
-from src.config import get_profile, load_config
+from src.config import env, get_profile, load_config
 from src.matching import filter_and_score
 from src.referral import generate_referral
+from src.skills import extract_skills, skill_gap
 from src.sources.aggregators import Adzuna, JSearch, Jooble
 from src.sources.ats import Ashby, Greenhouse, Lever
 
@@ -53,6 +55,32 @@ def sort_postings(postings, cfg):
         return (sponsor, p.match_score, p.posted_at or floor)
 
     return sorted(postings, key=sort_key, reverse=True)
+
+
+def _preflight() -> None:
+    """Fail fast with a clear list of every missing required secret (not one at
+    a time). Also report which optional sources are configured."""
+    missing = []
+    if not env("GOOGLE_SHEET_ID"):
+        missing.append("GOOGLE_SHEET_ID")
+    have_creds = env("GOOGLE_SERVICE_ACCOUNT_JSON") or os.path.exists(
+        env("GOOGLE_SERVICE_ACCOUNT_FILE", "service_account.json"))
+    if not have_creds:
+        missing.append("GOOGLE_SERVICE_ACCOUNT_JSON")
+    if missing:
+        log.error("Missing required secret(s): %s", ", ".join(missing))
+        log.error("Add them in repo Settings > Secrets and variables > Actions "
+                  "(Repository secrets, exact names above).")
+        raise SystemExit(1)
+
+    configured = [name for name, present in {
+        "Adzuna": env("ADZUNA_APP_ID") and env("ADZUNA_APP_KEY"),
+        "Jooble": env("JOOBLE_KEY"),
+        "JSearch": env("JSEARCH_KEY"),
+        "Gemini referral messages": env("GEMINI_API_KEY"),
+        "Profile (PROFILE_BLURB)": env("PROFILE_BLURB"),
+    }.items() if present]
+    log.info("optional configured: %s", ", ".join(configured) or "none (ATS boards only)")
 
 
 def main() -> None:
@@ -100,13 +128,18 @@ def main() -> None:
         log.info("dry-run: %d postings shown, nothing written", min(len(matched), cap))
         return
 
+    _preflight()
     from src.sheets import JobSheet  # lazy: dry-run needs no Google creds
     sheet = JobSheet()
     existing = sheet.existing_keys()
     fresh = [p for p in matched if p.key not in existing][:cap]
     log.info("%d new postings after Sheet dedupe (cap %d)", len(fresh), cap)
 
+    profile_skills = set(extract_skills(profile))
     for p in fresh:
+        have, gap = skill_gap(f"{p.title} {p.description}", profile_skills)
+        p.skills_have = ", ".join(have[:10])
+        p.skills_gap = ", ".join(gap[:10])
         p.referral_message = generate_referral(p, profile)
     wrote = sheet.append(fresh)
     log.info("done — wrote %d new jobs to the Sheet", wrote)

@@ -17,6 +17,8 @@ SHEET_HEADERS = [
     "Source",
     "H1B Sponsor?",
     "Match",
+    "Skills You Have",
+    "Skills to Learn",
     "Referral Message",
     "Applied?",
     "_key",  # hidden last column used for dedupe
@@ -38,6 +40,8 @@ class JobPosting:
     h1b_label: str = "⬜ Unknown"  # ⬜ Unknown
     h1b_count: int = 0
     match_score: float = 0.0
+    skills_have: str = ""
+    skills_gap: str = ""
     referral_message: str = ""
 
     @property
@@ -55,6 +59,8 @@ class JobPosting:
             self.source,
             self.h1b_label,
             f"{self.match_score:.0%}" if self.match_score else "",
+            self.skills_have,
+            self.skills_gap,
             self.referral_message,
             "Not applied",
             self.key,
